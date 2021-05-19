@@ -10,7 +10,7 @@
 /** META DATA */
 MODULE_LICENSE("MIT");
 MODULE_AUTHOR("Zachary Hansen Terry");
-MODULE_DESCRIPTION("Learning about device numbers");
+MODULE_DESCRIPTION("");
 
 /**
  * @breif This function is called when the devices file is opened
