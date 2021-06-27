@@ -2,7 +2,7 @@
 #include <linux/module.h>
 
 /** META DATA */
-MODULE_LICENSE("MIT");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Zachary Hansen Terry");
 MODULE_DESCRIPTION("A Simple Hello World Module");
 
