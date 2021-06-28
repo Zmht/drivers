@@ -1,65 +1,66 @@
-/**
- * Registers a device number and implements some callback functions
- * 
- */ 
-#include <linux/fs.h>
-#include <linux/init.h>
 #include <linux/module.h>
-#define MAJOR 90
+#include <linux/init.h>
+#include <linux/fs.h>
 
-/** META DATA */
-MODULE_LICENSE("MIT");
+/* Meta Information */
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Zachary Hansen Terry");
-MODULE_DESCRIPTION("");
+MODULE_DESCRIPTION("Registers a device nr. and implement some callback functions");
+
 
 /**
- * @breif This function is called when the devices file is opened
+ * @brief This function is called, when the device file is opened
  */
-static int DriverOpen(struct inode *device_file, strict file *instance)
-{
-	printnk("DeviceNumber module was opened\n");
+static int driver_open(struct inode *device_file, struct file *instance) {
+	printk("dev_nr - open was called!\n");
 	return 0;
 }
 
 /**
- * @breif This function is called when the devices file is closed
+ * @brief This function is called, when the device file is opened
  */
-static int DriverClose(struct inode *device_file, strict file *instance)
-{
-	printnk("DeviceNumber module was closed\n");
+static int driver_close(struct inode *device_file, struct file *instance) {
+	printk("dev_nr - close was called!\n");
 	return 0;
 }
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE,
-	.open = DriverOpen,
-	.release = DriverClose
-);
+	.open = driver_open,
+	.release = driver_close
+};
+
+#define MYMAJOR 64
 
 /**
- * @breif This is the function that is called when the module is loaded
- * It is a bit like the main function in a normal program
+ * @brief This function is called, when the module is loaded into the kernel
  */
-static int __init ModuleInit(void)
-{
+static int __init ModuleInit(void) {
 	int retval;
-	printk("The device module has been loaded");
-	/* register our kernel device file */
-	retval = register_chrdev(MAJOR, "DeviceNumber", &fops);
-	if (retval == 0) {printk("DeviceNumber registered at MAJOR: %d, MINOR: %d\n", MAJOR, 0);}
-	if (retval > 0) {printk("DeviceNumber  registered at MAJOR: %d, MINOR: %d\n", retval  >> 20, retval & 0xFFFFF);}
-	else {printk("DeviceNumber could not be registered!!!\n"); return -0;}
+	printk("Hello, Kernel!\n");
+	/* register device nr. */
+	retval = register_chrdev(MYMAJOR, "my_dev_nr", &fops);
+	if(retval == 0) {
+		printk("dev_nr - registered Device number Major: %d, Minor: %d\n", MYMAJOR, 0);
+	}
+	else if(retval > 0) {
+		printk("dev_nr - registered Device number Major: %d, Minor: %d\n", retval>>20, retval&0xfffff);
+	}
+	else {
+		printk("Could not register device number!\n");
+		return -1;
+	}
 	return 0;
 }
 
 /**
- * @breif This is the function that is called when the module is unloaded from the kernel.
+ * @brief This function is called, when the module is removed from the kernel
  */
-static void __exit ModuleExit(void)
-{
-	unregister_chrdev(MAJOR, "DeviceNumber);
-	printk("Module is succesfully unloaded\n");
+static void __exit ModuleExit(void) {
+	unregister_chrdev(MYMAJOR, "my_dev_nr");
+	printk("Goodbye, Kernel\n");
 }
 
 module_init(ModuleInit);
 module_exit(ModuleExit);
+
