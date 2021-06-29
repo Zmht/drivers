@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "hash_map": "c",
+        "bitset": "c",
+        "chrono": "c",
+        "algorithm": "c",
+        "*.tcc": "c",
+        "string_view": "c",
+        "random": "c",
+        "istream": "c",
+        "limits": "c",
+        "numeric": "c",
+        "valarray": "c",
+        "errors.h": "c",
+        "gpio.h": "c",
+        "module.h": "c"
+    }
+}
